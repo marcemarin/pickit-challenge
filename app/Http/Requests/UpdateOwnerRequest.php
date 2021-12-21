@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCarRequest extends FormRequest
+class UpdateOwnerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,9 @@ class UpdateCarRequest extends FormRequest
     public function rules()
     {
         return [
-            'plate_number' => ['string', 'required', 'unique:cars,plate_number,' . $this->car->id, 'max:20', 'min:6'],
-            'owner_id' => ['required'],
-            'year' => ['required', 'date'],
-            "brand" => ['present'],
-            "model" => ['present'],
-            "color" => ['present']
+            'uid' => ['string', 'required', 'unique:owners,uid' . $this->owner->uid, 'min:6', 'max:20'],
+            'first_name' => ['present'],
+            'last_name' => ['present']
         ];
     }
 }

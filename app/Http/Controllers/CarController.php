@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CarRequest;
 use App\Http\Requests\StoreCarRequest;
 use App\Http\Requests\UpdateCarRequest;
+use App\Http\Resources\CarResourse;
 use App\Models\Car;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CarController extends Controller
 {
@@ -15,7 +18,7 @@ class CarController extends Controller
      */
     public function index()
     {
-        //
+        return CarResourse::collection(Car::all());
     }
 
     /**
@@ -26,7 +29,9 @@ class CarController extends Controller
      */
     public function store(StoreCarRequest $request)
     {
-        //
+        $car = Car::create($request->validated());
+
+        return new CarResourse($car);
     }
 
     /**
@@ -35,9 +40,15 @@ class CarController extends Controller
      * @param  \App\Models\Car  $car
      * @return \Illuminate\Http\Response
      */
-    public function show(Car $car)
+    public function show($carId)
     {
-        //
+        try {
+            $car = Car::findOrFail($carId);
+
+            return new CarResourse($car);
+        } catch (ModelNotFoundException $th) {
+            return $this->returnError('Car not found', 404);
+        }
     }
 
     /**
@@ -47,9 +58,17 @@ class CarController extends Controller
      * @param  \App\Models\Car  $car
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCarRequest $request, Car $car)
+    public function update(UpdateCarRequest $request, $carId)
     {
-        //
+        try {
+            $car = Car::findOrFail($carId);
+
+            $car->update($request->validated());
+
+            return new CarResourse($car);
+        } catch (ModelNotFoundException $th) {
+            return $this->returnError('Car not found', 404);
+        }
     }
 
     /**
@@ -58,8 +77,16 @@ class CarController extends Controller
      * @param  \App\Models\Car  $car
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Car $car)
+    public function destroy($carId)
     {
-        //
+        try {
+            $car = Car::findOrFail($carId);
+
+            $car->delete();
+
+            return $this->returnSuccess();
+        } catch (ModelNotFoundException $th) {
+            return $this->returnError('Car not found', 404);
+        }
     }
 }

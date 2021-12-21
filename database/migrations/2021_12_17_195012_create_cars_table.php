@@ -8,13 +8,20 @@ class CreateCarsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     *Marca, Modelo, Año, Patente, Color
      * @return void
      */
     public function up()
     {
+        Schema::dropIfExists('cars');
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
+            $table->string('brand', 100)->nullable();
+            $table->string('model', 100)->nullable();
+            $table->date('year');
+            $table->string('plate_number', 100);
+            $table->string('color', 100)->nullable();
+            $table->foreignId('owner_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
