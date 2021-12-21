@@ -18,7 +18,7 @@ class CarController extends Controller
      */
     public function index()
     {
-        return CarResourse::collection(Car::all());
+        return CarResourse::collection(Car::simplePaginate());
     }
 
     /**

@@ -19,7 +19,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        return TransactionResourse::collection(Transaction::all());
+        return TransactionResourse::collection(Transaction::simplePaginate());
     }
 
     /**
@@ -35,9 +35,17 @@ class TransactionController extends Controller
 
             $owner_id = $request->owner_id ?? Car::findOrFail($validated['car_id'])->owner_id;
 
+            $serviceIds = Service::all()->pluck('id')->toArray();
+
+            $diffRequestServiceIds = array_diff($request->service_ids, $serviceIds);
+
+            if (!empty($diffRequestServiceIds)) {
+                return $this->returnError("Services", array_values($diffRequestServiceIds), 'Services not found', 406);
+            }
+
             $transaction = Transaction::create($validated + ['owner_id' => $owner_id]);
 
-            $transaction->services()->sync($request->service_ids);
+            $transaction->services()->attach($request->service_ids);
 
             return $this->returnSuccess(['Total' => $transaction->total]);
         } catch (ModelNotFoundException $th) {

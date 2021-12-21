@@ -22,17 +22,17 @@ class ServiceSeeder extends Seeder
                 'id' => 1,
                 'name' => 'Oil change',
                 'description' => '',
-                'amount' => 4000,
+                'amount' => 4200,
             ], [
                 'id' => 2,
                 'name' => 'Filter change',
                 'description' => '',
-                'amount' => 2000,
+                'amount' => 2500,
             ], [
                 'id' => 3,
                 'name' => 'Belt Change',
                 'description' => '',
-                'amount' => 10000,
+                'amount' => 10300,
             ], [
                 'id' => 4,
                 'name' => 'General Review',

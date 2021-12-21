@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\CarServiceController;
+use App\Http\Controllers\CarTransactionController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Http\Request;
@@ -22,10 +23,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('cars/{car}/services', CarServiceController::class);
+Route::get('cars/{carId}/transactions', CarTransactionController::class);
+
+Route::get('cars/{carId}/services', CarServiceController::class);
 
 Route::apiResource('cars', CarController::class);
 
 Route::apiResource('owners', OwnerController::class);
 
-Route::apiResource('transactions', TransactionController::class);
+Route::apiResource('transactions', TransactionController::class)->except(['update', 'destroy']);

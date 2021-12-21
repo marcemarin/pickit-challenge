@@ -17,7 +17,7 @@ class OwnerController extends Controller
      */
     public function index()
     {
-        return OwnerResourse::collection(Owner::with('cars')->get());
+        return OwnerResourse::collection(Owner::with('cars')->simplePaginate());
     }
 
     /**

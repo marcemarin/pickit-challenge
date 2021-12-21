@@ -13,7 +13,6 @@ class CreateCarsTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('cars');
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
             $table->string('brand', 100)->nullable();
