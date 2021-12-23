@@ -24,7 +24,7 @@ class UpdateOwnerRequest extends FormRequest
     public function rules()
     {
         return [
-            'uid' => ['string', 'required', 'unique:owners,uid' . $this->owner->uid, 'min:6', 'max:20'],
+            'uid' => ['string', 'required', 'unique:owners,uid,' . $this->owner, 'min:6', 'max:20'],
             'first_name' => ['present'],
             'last_name' => ['present']
         ];

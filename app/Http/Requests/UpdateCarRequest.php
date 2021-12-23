@@ -24,7 +24,7 @@ class UpdateCarRequest extends FormRequest
     public function rules()
     {
         return [
-            'plate_number' => ['string', 'required', 'unique:cars,plate_number,' . $this->car->id, 'max:20', 'min:6'],
+            'plate_number' => ['string', 'required', 'unique:cars,plate_number,' . $this->car, 'max:20', 'min:6'],
             'owner_id' => ['required'],
             'year' => ['required', 'date'],
             "brand" => ['present'],
